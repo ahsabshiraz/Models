@@ -1,28 +1,51 @@
-import { Canvas } from "@react-three/fiber"
-import { OrbitControls } from "@react-three/drei"
-import { useEffect, useState } from "react"
-import axios from "axios"
-import Model from "./Model"
-
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import { Canvas } from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei'
+import Model from './Model'
+import { Html } from '@react-three/drei'
 const Scene = () => {
   const [models, setModels] = useState([])
 
   useEffect(() => {
-    axios.get("http://localhost:5000/models").then((res) => {
-      setModels(res.data)
-    })
+    axios
+      .get('http://localhost:5000/models')
+      .then(response => {
+        setModels(response.data)
+      })
+      .catch(err => console.log("error->",err))
   }, [])
 
   return (
-    <Canvas camera={{ position: [5, 2, 10], fov: 50 }}>
-      <ambientLight intensity={0.8} />
-      <directionalLight position={[5, 5, 5]} />
-      <OrbitControls />
-
-      {models.map((model, index) => (
-        <Model key={index} path={`http://localhost:5000${model.filepath}`} position={[index * 3, 0, 0]} scale={2} />
-      ))}
-    </Canvas>
+    <div>
+      <Canvas camera={{ position: [0, 2, 5], fov: 50 }}>
+        <ambientLight intensity={1} />
+        <directionalLight position={[5, 5, 5]} />
+        <OrbitControls />
+        {models &&
+          models.map(model => (
+            <group key={model.id}>
+              <Model
+                path={`http://localhost:5000${model.filepath}`}
+                position={[model.id * 3, 0, 0]}
+                scale={1}
+              />
+              <Html position={[model.id * 3, 2, 0]}>
+                <div
+                  style={{
+                    background: 'white',
+                    padding: '5px',
+                    borderRadius: '5px'
+                  }}
+                >
+                  Name:{model.filename}<br/>
+                  model_Info:{model.model_info}
+                </div>
+              </Html>
+            </group>
+          ))}
+      </Canvas>
+    </div>
   )
 }
 
