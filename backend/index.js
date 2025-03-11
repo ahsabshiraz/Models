@@ -1,9 +1,8 @@
 const express = require('express')
 const multer = require('multer')
-const sqlite3 = require('sqlite3').verbose()
 const cors = require('cors')
 const path = require('path')
-const fs = require('fs')
+const db = require('./database'); 
 
 const app = express()
 const PORT = 5000
@@ -12,20 +11,7 @@ app.use(cors())
 app.use(express.json())
 app.use('/uploads', express.static('uploads'))
 
-// SQLite Database Setup
-const db = new sqlite3.Database('./database.db', err => {
-  if (err) console.error('Database error:', err)
-  console.log('Connected to SQLite database')
-})
 
-// Create Table
-db.run(
-  `CREATE TABLE IF NOT EXISTS models (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-   filename TEXT, 
-   filepath TEXT,
-  model_info TEXT)`
-)
 // Multer Setup for File Uploads
 const storage = multer.diskStorage({
   destination: 'uploads/',
