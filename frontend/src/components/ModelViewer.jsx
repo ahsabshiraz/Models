@@ -3,12 +3,15 @@ import { OrbitControls, Html } from '@react-three/drei'
 import Model from './Model'
 import useModelStore from '../store/store' // Import Zustand store
 
+
 function ModelViewer () {
-  const { selectedModel, selectModel } = useModelStore() // Zustand store
+  const { selectedModel, loading, setLoading } = useModelStore() // Zustand store
+
   return (
     <div style={{ flex: 1, height: '500px' }}>
+
       <Canvas shadows camera={{ position: [0, 2, 5], fov: 50 }}>
-        <ambientLight intensity={0.5} />
+        <ambientLight intensity={2} />
         <directionalLight position={[5, 5, 5]} castShadow />
         <OrbitControls />
 
@@ -18,9 +21,10 @@ function ModelViewer () {
               path={`http://localhost:5000${selectedModel.filepath}`}
               position={[0, 0, 0]}
               scale={1}
+              setLoading={setLoading}
             />
 
-            <Html position={[0, 2, 0]}>
+            <Html position={[2, 0, 0]}>
               <div
                 style={{
                   background: 'white',
