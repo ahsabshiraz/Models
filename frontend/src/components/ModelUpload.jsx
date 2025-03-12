@@ -21,32 +21,43 @@ const ModelUpload = () => {
     formData.append('file', file)
     formData.append('name', name)
     formData.append('model_info', modelInfo)
+    try {
+      const response = await axios.post(
+        'http://localhost:5000/upload',
+        formData,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        }
+      )
 
-    const response = await axios.post(
-      'http://localhost:5000/upload',
-      formData,
-      {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      }
-    )
-
-    alert('File uploaded successfully!')
-    addModel(response.data) // Update Zustand store dynamically
-    
+      alert('File uploaded successfully!')
+      addModel(response.data) // Update Zustand store dynamically
+      setName('')
+      setModelInfo('')
+    } 
+    catch (error) {
+      console.error('Upload error:', error)
+      alert('Upload failed')
+    }
   }
 
   return (
     <div style={{ textAlign: 'center', padding: '20px' }}>
-      <h2>Upload GLB File</h2>
+      <h2>Upload Model File</h2>
       <input
         type='text'
         placeholder='Model Name'
+        value={name}
         onChange={e => setName(e.target.value)}
       />
       <input
-        type='text' placeholder='Model Info' onChange={e => setModelInfo(e.target.value)}/>
+        type='text'
+        placeholder='Model Info'
+        value={modelInfo}
+        onChange={e => setModelInfo(e.target.value)}
+      />
       {/* New field */}
-      <input type='file' accept='.glb' onChange={handleFileChange} />
+      <input type='file' accept='.glb'  onChange={handleFileChange} />
       <button onClick={handleUpload}>Upload</button>
       <h2>Rendered Models</h2>
       <Scene />

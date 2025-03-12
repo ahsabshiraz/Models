@@ -9,7 +9,7 @@ const Scene = () => {
 
   useEffect(() => {
     fetchModels(); // Fetch models when the component mounts
-  }, [fetchModels]);
+  }, [fetchModels,models]);
 
   return (
     <div style={{ display: "flex", gap: "20px" }}>
