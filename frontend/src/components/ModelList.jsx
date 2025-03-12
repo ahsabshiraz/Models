@@ -2,11 +2,12 @@ import useModelStore from '../store/store'
 import { useEffect } from 'react'
 
 function ModelList () {
-  const { models, selectModel, fetchModels, deleteModel } = useModelStore()
+  const { models, selectModel, fetchModels, deleteModel, setLoading } =
+    useModelStore()
 
   useEffect(() => {
     fetchModels() // Fetch models when the component mounts
-  }, [models])// if model changes re-render this components
+  }, [models]) // if model changes re-render this components
 
   return (
     <div style={{ display: 'flex', gap: '20px' }}>
@@ -25,7 +26,10 @@ function ModelList () {
               }}
             >
               <button
-                onClick={() => selectModel(model)}
+                onClick={() => {
+                  selectModel(model)
+                  setLoading(true)
+                }}
                 style={{
                   flexGrow: 1,
                   padding: '10px',

@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import axios from 'axios'
+import { useEffect } from 'react'
 
 const useModelStore = create(set => ({
   models: [],
@@ -7,7 +8,10 @@ const useModelStore = create(set => ({
   loading: false,
 
   setLoading: load => {
-    set({ loading: load })
+    set({ loading: true })
+    setTimeout(() => {
+      set({ loading: false })
+    }, 500)
   },
 
   fetchModels: async () => {
@@ -25,10 +29,10 @@ const useModelStore = create(set => ({
 
   deleteModel: async id => {
     try {
-      await axios.delete(`http://localhost:5000/models/${id}`);
-      set(state => ({ models: state.models.filter(model => model.id !== id) }));
+      await axios.delete(`http://localhost:5000/models/${id}`)
+      set(state => ({ models: state.models.filter(model => model.id !== id) }))
     } catch (error) {
-      console.error('Error deleting model:', error);
+      console.error('Error deleting model:', error)
     }
   }
 }))
