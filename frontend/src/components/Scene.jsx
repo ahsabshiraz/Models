@@ -1,42 +1,36 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Html } from '@react-three/drei'
-import Model from './Model'
+import { useEffect } from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Html } from "@react-three/drei";
+import Model from "./Model";
+import useModelStore from "../store/store"; // Import Zustand store
 
 const Scene = () => {
-  const [models, setModels] = useState([])
-  const [selectedModel, setSelectedModel] = useState(null) // Track selected model
+  const { models, selectedModel, fetchModels, selectModel } = useModelStore(); // Zustand store
 
   useEffect(() => {
-    axios
-      .get('http://localhost:5000/models')
-      .then(response => {
-        setModels(response.data)
-      })
-      .catch(err => console.log('error->', err))
-  }, [])
+    fetchModels(); // Fetch models when the component mounts
+  }, [fetchModels]);
 
   return (
-    <div style={{ display: 'flex', gap: '20px' }}>
+    <div style={{ display: "flex", gap: "20px" }}>
       {/* Left: Model List */}
-      <div style={{ width: '200px', textAlign: 'left' }}>
+      <div style={{ width: "200px", textAlign: "left" }}>
         <h3>Model List</h3>
         {models.length > 0 ? (
-          models.map(model => (
+          models.map((model) => (
             <button
               key={model.id}
-              onClick={() => setSelectedModel(model)}
+              onClick={() => selectModel(model)} // Set selected model
               style={{
-                display: 'block',
-                width: '100%',
-                padding: '10px',
-                margin: '5px 0',
-                cursor: 'pointer',
-                backgroundColor: '#007BFF',
-                color: 'white',
-                border: 'none',
-                borderRadius: '5px'
+                display: "block",
+                width: "100%",
+                padding: "10px",
+                margin: "5px 0",
+                cursor: "pointer",
+                backgroundColor: "#007BFF",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
               }}
             >
               {model.filename}
@@ -48,11 +42,12 @@ const Scene = () => {
       </div>
 
       {/* Right: 3D Model Viewer */}
-      <div style={{ flex: 1, height: '500px' }}>
-        <Canvas camera={{ position: [0, 2, 5], fov: 50 }}>
-          <ambientLight intensity={1} />
-          <directionalLight position={[5, 5, 5]} />
+      <div style={{ flex: 1, height: "500px" }}>
+        <Canvas shadows camera={{ position: [0, 2, 5], fov: 50 }}>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[5, 5, 5]} castShadow />
           <OrbitControls />
+
           {selectedModel && (
             <group>
               <Model
@@ -64,15 +59,14 @@ const Scene = () => {
               <Html position={[0, 2, 0]}>
                 <div
                   style={{
-                    background: 'white',
-                    padding: '5px',
-                    borderRadius: '5px'
+                    background: "white",
+                    padding: "5px",
+                    borderRadius: "5px",
                   }}
                 >
-                  <strong>Name:</strong>
-                  {selectedModel.filename}
+                  <strong>Name:</strong> {selectedModel.filename}
                   <br />
-                  <strong>model_Info:</strong> {selectedModel.model_info}
+                  <strong>Model Info:</strong> {selectedModel.model_info}
                 </div>
               </Html>
             </group>
@@ -80,7 +74,7 @@ const Scene = () => {
         </Canvas>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Scene
+export default Scene;
