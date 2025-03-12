@@ -1,3 +1,5 @@
+const fs = require('fs')
+const path = require('path')
 const db = require('../database')
 
 const uploadModel = (req, res) => {
@@ -26,4 +28,20 @@ const fetchModels = (req, res) => {
   })
 }
 
-module.exports = { uploadModel, fetchModels }
+const deleteModel = (req, res) => {
+  const { id } = req.params
+
+  db.get(`SELECT filepath FROM models WHERE id = ?`, [id], (err, row) => {
+    if (err) return res.status(500).json({ message: 'Database error' })
+    if (!row) return res.status(404).json({ message: 'Model not found' })
+
+
+    // Delete model entry from database
+    db.run(`DELETE FROM models WHERE id = ?`, [id], deleteErr => {
+      if (deleteErr) return res.status(500).json({ message: 'Database error' })
+      res.json({ message: 'Model deleted successfully' })
+    })
+  })
+}
+
+module.exports = { uploadModel, fetchModels, deleteModel }

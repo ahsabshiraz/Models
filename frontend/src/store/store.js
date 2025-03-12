@@ -5,9 +5,11 @@ const useModelStore = create(set => ({
   models: [],
   selectedModel: null,
   loading: false,
+
   setLoading: load => {
     set({ loading: load })
   },
+
   fetchModels: async () => {
     try {
       const response = await axios.get('http://localhost:5000/models')
@@ -19,7 +21,16 @@ const useModelStore = create(set => ({
 
   selectModel: model => set({ selectedModel: model }),
 
-  addModel: newModel => set(state => ({ models: [...state.models, newModel] }))
+  addModel: newModel => set(state => ({ models: [...state.models, newModel] })),
+
+  deleteModel: async id => {
+    try {
+      await axios.delete(`http://localhost:5000/models/${id}`);
+      set(state => ({ models: state.models.filter(model => model.id !== id) }));
+    } catch (error) {
+      console.error('Error deleting model:', error);
+    }
+  }
 }))
 
 export default useModelStore

@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const { uploadModel, fetchModels } = require('../controllers/modelController');
+const { uploadModel, fetchModels,deleteModel  } = require('../controllers/modelController');
 
 const router = express.Router();
 
@@ -19,5 +19,6 @@ const upload = multer({ storage });
 // Routes
 router.post('/upload', upload.single('file'), uploadModel);
 router.get('/models', fetchModels);
+router.delete('/models/:id', deleteModel); // Delete Model by ID
 
 module.exports = router;
