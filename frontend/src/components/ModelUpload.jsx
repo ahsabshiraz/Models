@@ -35,7 +35,7 @@ const ModelUpload = () => {
 
     try {
       const response = await axios.post(
-        'https://threed-models-frontend.onrender.com/upload',
+        'https://threed-models-viewer-backend.onrender.com/upload',
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' }
