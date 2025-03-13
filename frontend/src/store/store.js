@@ -16,7 +16,7 @@ const useModelStore = create(set => ({
 
   fetchModels: async () => {
     try {
-      const response = await axios.get('http://localhost:5000/models')
+      const response = await axios.get('https://threed-models-frontend.onrender.com/models')
       set({ models: response.data })
     } catch (error) {
       console.error('Error fetching models:', error)
@@ -29,7 +29,7 @@ const useModelStore = create(set => ({
 
   deleteModel: async id => {
     try {
-      await axios.delete(`http://localhost:5000/models/${id}`)
+      await axios.delete(`https://threed-models-frontend.onrender.com/models/${id}`)
       set(state => ({ models: state.models.filter(model => model.id !== id) }))
     } catch (error) {
       console.error('Error deleting model:', error)
