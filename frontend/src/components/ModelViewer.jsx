@@ -44,7 +44,7 @@ function ModelViewer() {
           {selectedModel ? (
             <group>
               <Model
-                path={`http://localhost:5000${selectedModel.filepath}`}
+                path={`https://threed-models-viewer-backend.onrender.com${selectedModel.filepath}`}
                 position={[0, -0.8, 0]}
                 scale={1}
               />
