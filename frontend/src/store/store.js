@@ -11,7 +11,7 @@ const useModelStore = create(set => ({
     set({ loading: true })
     setTimeout(() => {
       set({ loading: false })
-    }, 3000)
+    }, 7000)
   },
 
   fetchModels: async () => {
