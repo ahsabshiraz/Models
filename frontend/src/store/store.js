@@ -5,14 +5,6 @@ import { BASE_URL } from '../config'
 const useModelStore = create(set => ({
   models: [],
   selectedModel: null,
-  loading: false,
-
-  setLoading: load => {
-    set({ loading: true })
-    setTimeout(() => {
-      set({ loading: false })
-    }, 100)
-  },
 
   fetchModels: async () => {
     try {

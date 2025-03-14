@@ -1,19 +1,18 @@
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Html } from '@react-three/drei'
+import { OrbitControls, Html, useProgress } from '@react-three/drei'
 import Model from './Model'
 import useModelStore from '../store/store' // Zustand store
 import LoadingAnimation from './LoadingAnimation'
 import { useEffect } from 'react'
 import { BASE_URL } from '../config'
 
-function ModelViewer() {
-  const { selectedModel, loading } = useModelStore() // Zustand store
-
-
+function ModelViewer () {
+  const { selectedModel } = useModelStore()
+  const { progress, active } = useProgress() // Tracks loading state
 
   return (
     <div
-      id="canvas-container"
+      id='canvas-container'
       style={{
         flex: 1,
         height: '900px',
@@ -24,8 +23,8 @@ function ModelViewer() {
         overflow: 'hidden'
       }}
     >
-      {loading ? (
-        <LoadingAnimation />
+      {active ? (
+        <LoadingAnimation progress={progress} />
       ) : (
         <Canvas
           shadows
@@ -50,7 +49,7 @@ function ModelViewer() {
                 scale={1}
               />
 
-              <Html position={[1, 0.7, 0] }transform >
+              <Html position={[1, -1, 0]} transform>
                 <div
                   style={{
                     background: 'rgba(255, 255, 255, 0.8)',
@@ -67,7 +66,7 @@ function ModelViewer() {
               </Html>
             </group>
           ) : (
-            <Html position={[0, 1, 0]}  transform >
+            <Html position={[0, 1, 0]} transform>
               <div style={{ color: '#666', textAlign: 'center' }}>
                 No model selected
               </div>

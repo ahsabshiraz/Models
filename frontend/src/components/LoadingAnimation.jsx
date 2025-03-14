@@ -1,6 +1,6 @@
 import { CircularProgress } from '@mui/material'
 import useModelStore from '../store/store'
-function LoadingAnimation () {
+function LoadingAnimation ({progress}) {
   const { loading } = useModelStore()
   return (
     <div
@@ -11,6 +11,9 @@ function LoadingAnimation () {
       }}
     >
       <CircularProgress />
+      <p style={{ fontSize: '18px', fontWeight: 'bold' }}>
+        Loading... {Math.round(progress)}%
+      </p>
     </div>
   )
 }
