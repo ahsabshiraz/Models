@@ -14,6 +14,7 @@ import {
   Divider
 } from '@mui/material'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import { BASE_URL } from '../config'
 
 const ModelUpload = () => {
   const [file, setFile] = useState(null)
@@ -35,7 +36,7 @@ const ModelUpload = () => {
 
     try {
       const response = await axios.post(
-        'https://threed-models-viewer-backend.onrender.com/upload',
+        `${BASE_URL}/upload`,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' }
@@ -160,7 +161,7 @@ const ModelUpload = () => {
             borderRadius: '12px',
             boxShadow: '5px 5px 15px rgba(0,0,0,0.2)',
             padding: 2,
-            backgroundColor: '#1976D2',
+            backgroundColor: '#1976D2'
           }}
         >
           <Typography

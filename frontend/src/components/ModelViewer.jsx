@@ -4,6 +4,7 @@ import Model from './Model'
 import useModelStore from '../store/store' // Zustand store
 import LoadingAnimation from './LoadingAnimation'
 import { useEffect } from 'react'
+import { BASE_URL } from '../config'
 
 function ModelViewer() {
   const { selectedModel, loading } = useModelStore() // Zustand store
@@ -44,7 +45,7 @@ function ModelViewer() {
           {selectedModel ? (
             <group>
               <Model
-                path={`https://threed-models-viewer-backend.onrender.com${selectedModel.filepath}`}
+                path={`${BASE_URL}${selectedModel.filepath}`}
                 position={[0, -0.8, 0]}
                 scale={1}
               />

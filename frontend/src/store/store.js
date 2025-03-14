@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import axios from 'axios'
-import { useEffect } from 'react'
+import { BASE_URL } from '../config'
 
 const useModelStore = create(set => ({
   models: [],
@@ -11,12 +11,12 @@ const useModelStore = create(set => ({
     set({ loading: true })
     setTimeout(() => {
       set({ loading: false })
-    }, 10000)
+    }, 100)
   },
 
   fetchModels: async () => {
     try {
-      const response = await axios.get('https://threed-models-viewer-backend.onrender.com/models')
+      const response = await axios.get(`${BASE_URL}/models`)
       set({ models: response.data })
     } catch (error) {
       console.error('Error fetching models:', error)
@@ -29,7 +29,7 @@ const useModelStore = create(set => ({
 
   deleteModel: async id => {
     try {
-      await axios.delete(`https://threed-models-viewer-backend.onrender.com/models/${id}`)
+      await axios.delete(`${BASE_URL}/models/${id}`)
       set(state => ({ models: state.models.filter(model => model.id !== id) }))
     } catch (error) {
       console.error('Error deleting model:', error)
