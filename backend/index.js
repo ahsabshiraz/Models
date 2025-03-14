@@ -3,7 +3,7 @@ const cors = require('cors')
 const modelRoutes = require('./routes/modelRoutes')
 
 const app = express()
-const PORT = 5000
+const port = process.env.PORT || 5000
 
 // Middleware
 app.use(cors())
@@ -14,4 +14,4 @@ app.use('/uploads', express.static('uploads'))
 app.use('/', modelRoutes) // Prefix API routes with `/api`
 
 // Start Server
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+app.listen(port, () => console.log(`Server running on port ${port}`))
