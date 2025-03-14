@@ -157,7 +157,7 @@ const ModelUpload = () => {
         <Paper
           elevation={4}
           sx={{
-            height: '100%',
+            height: '1000px',
             borderRadius: '12px',
             boxShadow: '5px 5px 15px rgba(0,0,0,0.2)',
             padding: 2,
